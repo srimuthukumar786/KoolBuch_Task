@@ -1,0 +1,53 @@
+{% extends "bindpage.html" %}
+{% load static %}
+{% block title %}
+Add Event
+{% endblock title %}
+{% block content %}
+<section>
+    <div class="container-fluid registractionform">
+        <div class="row row-cols-1 row-cols-lg-1 m-2 m-md-5">
+            <div class="col text-center">
+                <form method='POST'>
+                    {% csrf_token %}
+                  <div class="text-start ">
+                    <div>
+                        <label for="">Title : </label><br>
+                        <input type="text" name='title' id="title" placeholder="Title" required>
+                    </div>
+                    <div>
+                        <label for="">Description : </label><br>
+                        <textarea name="desc" id="desc" cols="65" rows="10" placeholder="Description" required></textarea>
+                    </div>
+                    <div>
+                        <label for="">Start Date : </label><br>
+                        <input type="datetime-local" name='sdate' id="sdate" required>
+                    </div>
+                    <div>
+                        <label for="">End Date : </label><br>
+                        <input type="datetime-local" name='edate' id="edate" required>
+                    </div>
+                    <div>
+                        <label for="">Location : </label><br>
+                        <input type="text" name='loc' id="loc" placeholder="Location" required>
+                    </div>
+                     <div>
+                        <label for="">Organizer :</label><br>
+                        <input type="text" name="org" id="org" placeholder="Organizer" required>
+                    </div><br>
+                    <div class="registerbutton">
+                        <button type="submit" class="regsubmit">Add</button>
+                        <button type="button" class="regback mt-3 mt-md-0"><a href="{% url 'index' %}">Back</a></button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="col  pt-2">
+                      {% comment %} <div class="loginlogo p-2">
+                    <img src="{% static 'images/eventregister.jpg' %}" style="height:500px;" alt="" class="img-fluid">
+                    </div>      
+              </div> {% endcomment %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

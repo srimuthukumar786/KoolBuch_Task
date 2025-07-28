@@ -1,0 +1,125 @@
+{% extends "bindpage.html" %}
+{% load static %}
+{% block title %}
+Home
+{% endblock title %}
+{% block content %}
+<section>
+    <div class="d-flex justify-content-between align-items-center bg-light">
+        <marquee behavior="scroll" direction="left" style="font-size:40px; text-shadow:black 2px 2px; color:orange; flex: 1;">
+            Welcome to My Events
+        </marquee>
+        {% if request.user.is_authenticated %}
+        <a class="btn btn-success btn-lg ms-3" href="{% url 'addevent' %}" role="button">
+            Add Event
+        </a>
+        {% endif %}
+        <button class="btn btn-outline-primary btn-lg me-3 ms-2" onclick="toggleFilter()">Filter</button>
+
+            <!-- Filter Sidebar -->
+            <div id="filterSidebar" class="filter-sidebar">
+                <div class="filter-header d-flex justify-content-between align-items-center">
+                    <h4 class="m-0">Filter Events</h4>
+                    <button type="button" class="btn-close" aria-label="Close" onclick="toggleFilter()"></button>
+                </div>
+                <hr>
+                <form method="GET" action="">
+                    <div class="filter-content">
+                        <h5>Date</h5>
+                        <div>
+                            <label><input type="radio" name="date_range" value="past_30"> Past 30 Days</label><br>
+                            <label><input type="radio" name="date_range" value="past_7"> Past 7 Days</label><br>
+                            <label><input type="radio" name="date_range" value="today"> Today</label><br>
+                            <label><input type="radio" name="date_range" value="next_7"> Next 7 Days</label><br>
+                            <label><input type="radio" name="date_range" value="next_30"> Next 30 Days</label><br>
+                        </div>
+
+                        <hr>
+                        <h5>Location</h5>
+                        {% for loc in unique_locations %}
+                        <label>
+                        <input type="checkbox" name="location" value="{{ loc }}"
+                            {% if loc in selected_locations %}checked{% endif %}> {{ loc }}
+                        </label><br>
+                        {% endfor %}
+
+                        <hr>
+                        <h5>Organizer</h5>
+                        {% for org in unique_organizers %}
+                        <label>
+                        <input type="checkbox" name="organizer" value="{{ org }}"
+                            {% if org in selected_organizers %}checked{% endif %}> {{ org }}
+                        </label><br>
+                        {% endfor %}
+                        <hr>
+                        <button class="btn btn-success w-100" type="submit">Apply</button>
+                        <button type="button" class="btn btn-warning w-100 mt-2" onclick="clearFilters()">Clear Filters</button>
+                    </div>
+                </form>
+            </div>
+    </div>
+
+    <div class="container categories">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 text-center item mt-1  g-4 mb-5">
+                {% for item in data %}
+               <div>
+                    <div class="col category">
+                        <div class="categorytext mt-4">
+                            <h4 style='color:orange;'><b>Title:</b>{{item.title}}</h4>
+                           <h5><b>Start Date: {{ item.startdate|date:"d/m/Y g A" }}</b></h5>
+                            <h5><b>End Date: {{ item.enddate|date:"d/m/Y g A" }}</b></h5>
+                            <h5><b>Location: {{item.location}}</b></h5>
+
+                            <!-- Button group with bottom margin -->
+                            <div class="mb-4">
+                                <!-- View Button -->
+                                <a class="btn btn-primary btn-lg ms-3" href="" role="button" title="View" data-bs-toggle='modal' data-bs-target='#{{item.id}}'>
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                {% if request.user.is_authenticated %}
+                                <!-- Edit Button -->
+                                <a class="btn btn-warning btn-lg ms-3" href="{% url 'updateevent' item.id %}" role="button" title="Edit">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+
+                                <!-- Delete Button -->
+                                <a class="btn btn-danger btn-lg ms-3" href="{% url 'deleteevent' item.id %}" role="button" title="Delete">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal" id="{{item.id}}">
+                  <div class="modal-dialog modal-fullscreen p-2 p-md-5">
+                    <div class="modal-content container">
+                        <div class="modal-header">
+                            <h3><b>{{item.title}}</b></h3>
+                            <button type="button" class="btn btn-outline-danger " data-bs-dismiss="modal">X</button>
+                        </div>
+                        <div class="modal-body row row-cols-1 row-cols-md-2">
+                           <div class="col">
+                            <img src="{% static 'images/myevent.jpeg' %}" style="height:380px; width:100%" alt="" class="img-fluid">
+                           </div>
+                            <div class="modal-text ps-3 col">
+                                <h4><b>Description:</b>{{item.description}}</h4>
+                                {% comment %} <div class="ingredients">
+                                    <p>desc</p>
+                                </div> {% endcomment %}
+                                <h4><b>Start Date:</b>{{item.startdate}}</h4>
+                                <h4><b>End Date:</b>{{item.enddate}}</h4>
+                                <h4><b>Location:</b>{{item.location}}</h4>
+                                <h4><b>Organizer:</b>{{item.organizer}}</h4> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

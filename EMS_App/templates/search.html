@@ -1,0 +1,72 @@
+{% extends "bindpage.html" %}
+{% load static %}
+
+{% block title %}
+Search
+{% endblock title %}
+
+{% block content %}
+<section>
+    <p style="font-size:25px;">You Searched for <b style="color:blue;">{{keyword}}</b> </p>
+    <div class="container categories">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 text-center item mt-1  g-4 mb-5">
+                {% for item in events %}
+               <div>
+                    <div class="col category">
+                        <div class="categorytext mt-4">
+                            <h4 style='color:orange;'><b>Title:</b>{{item.title}}</h4>
+                            <h5><b>Start Date: {{ item.startdate|date:"d/m/Y g A" }}</b></h5>
+                            <h5><b>End Date: {{ item.enddate|date:"d/m/Y g A" }}</b></h5>
+                            <h5><b>Location: {{item.location}}</b></h5>
+
+                            <!-- Button group with bottom margin -->
+                            <div class="mb-4">
+                                <!-- View Button -->
+                                <a class="btn btn-primary btn-lg ms-3" href="" role="button" title="View" data-bs-toggle='modal' data-bs-target='#{{item.id}}'>
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                {% if request.user.is_authenticated %}
+                                <!-- Edit Button -->
+                                <a class="btn btn-warning btn-lg ms-3" href="{% url 'updateevent' item.id %}" role="button" title="Edit">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+
+                                <!-- Delete Button -->
+                                <a class="btn btn-danger btn-lg ms-3" href="{% url 'deleteevent' item.id %}" role="button" title="Delete">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal" id="{{item.id}}">
+                  <div class="modal-dialog modal-fullscreen p-2 p-md-5">
+                    <div class="modal-content container">
+                        <div class="modal-header">
+                            <h3><b>{{item.title}}</b></h3>
+                            <button type="button" class="btn btn-outline-danger " data-bs-dismiss="modal">X</button>
+                        </div>
+                        <div class="modal-body row row-cols-1 row-cols-md-2">
+                           <div class="col">
+                            <img src="{% static 'images/myevent.jpeg' %}" style="height:380px; width:100%" alt="" class="img-fluid">
+                           </div>
+                            <div class="modal-text ps-3 col">
+                                <h4><b>Description:</b>{{item.description}}</h4>
+
+                                <h4><b>Start Date:</b>{{ item.startdate|date:"d/m/Y g A" }}</h4>
+                                <h4><b>End Date:</b>{{ item.enddate|date:"d/m/Y g A" }}</h4>
+                                <h4><b>Location:</b>{{item.location}}</h4>
+                                <h4><b>Organizer:</b>{{item.organizer}}</h4> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

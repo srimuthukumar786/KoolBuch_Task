@@ -1,0 +1,59 @@
+{% extends "bindpage.html" %}
+{% load static %}
+{% block title %}
+Register
+{% endblock title %}
+{% block content %}
+<section>
+    <div class="container-fluid registractionform">
+        <div class="row row-cols-1 row-cols-lg-1 m-2 m-md-5">
+            <div class="col text-center">
+                <form onsubmit="return test()" method='POST'>
+                    {% csrf_token %}
+                  <div class="text-start ">
+                    <div>
+                        <label for="">First Name : </label><br>
+                        <input type="text" name='fname' id="name" placeholder="First Name">
+                        <span id="nameerroe"></span>
+                    </div>
+                    <div>
+                        <label for="">Last Name : </label><br>
+                        <input type="text" name='lname' id="name2" placeholder="Last Name">
+                        <span id="nameerroe2"></span>
+                    </div>
+                    <div>
+                        <label for="">Email : </label><br>
+                        <input type="text" name='email' id="email" placeholder="Email">
+                        <span id="emailerror"></span>
+                    </div>
+                    <div>
+                        <label for="">Phone : </label><br>
+                        <input type="text" name='phone' id="phone" placeholder="Phone Number">
+                        <span id="phoneerror"></span>
+                    </div>
+                    <div>
+                        <label for="">Password : </label><br>
+                        <input type="password" name='pass' id="password" placeholder="Password">
+                        <span id="passworderror"></span>
+                    </div>
+                     <div>
+                        <label for="">ConformPassword:</label><br>
+                        <input type="password" name="cpass" id="conformpassword" placeholder="Conformpassword">
+                        <span id="conformpassworderror"></span>
+                    </div><br>
+                    <div class="registerbutton">
+                        <button type="submit" class="regsubmit">Submit</button>
+                        <button type="button" class="regback mt-3 mt-md-0"><a href="{% url 'index' %}">Back</a></button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              {% comment %}<div class="col  pt-2">
+                       <div class="loginlogo p-2">
+                    <img src="{% static 'images/eventregister.jpg' %}" style="height:500px;" alt="" class="img-fluid">
+                    </div>      
+              </div> {% endcomment %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

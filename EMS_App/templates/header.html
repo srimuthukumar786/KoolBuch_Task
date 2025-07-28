@@ -1,0 +1,57 @@
+{% load static %}
+<div class="topheadding">
+    <div class="email">
+        <a></i>myevents786@gmail.com</a>
+    </div>
+    <div class="phone">
+        <a href="">call now :<i class="fa-solid fa-phone ps-2" style="color: #27b300;"></i>+91 0123456789</a>
+    </div>
+    <div class="topsocialmedia">
+        <a href=""><i class="fa-brands fa-whatsapp" ></i></a>
+        <a href=""><i class="fa-brands fa-facebook-f"></i></a>
+        <a href=""><i class="fa-brands fa-instagram"></i></a>
+        <a href=""><i class="fa-brands fa-x-twitter"></i></a>
+    </div>
+</div>
+
+<!-- Navbar -->
+
+<nav>
+    <div class="log">
+        <a href="{%url 'index' %}" style="font-size:50px; text-decoration:none; color:white;"><img src="{% static 'images/myevent.jpeg' %}" width="70" height="70" alt=""> My Events</a>
+    </div>
+    <div class="searchbox">
+        <form action="{% url 'search' %}" method="POST">
+            {% csrf_token %}
+            <input type="search" name="keyword" style="background-color: white; color:black; border-radius:3px; height:50px; width: 300px; font-size:22px; padding-left:10px;" placeholder="Search here" autocomplete="off"> <button class="btn btn-outline-primary btn-lg">Search</button>
+        </form>           
+    </div>
+    <div class="navicon">
+       <a href="#"><i class="fa-solid fa-user profile" class="user-img" onclick="toggleMenu()"></i></a>
+    </div>
+
+    <!-- profile -->
+
+    <div class="sub-menu-wrap" id="subMenu">
+        <div class="sub-menu" >
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="sub-menu-link">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <p>Log Out</p>
+                <span><i class="fa-solid fa-caret-right" style="color: #ffae3d;"></i></span>
+            </a>
+        {% else %}
+            <a href="{% url 'login' %}" class="sub-menu-link">
+                <i class="fa-solid fa-right-to-bracket"></i>
+                <p>Login</p>
+                <span><i class="fa-solid fa-caret-right" style="color: #ffae3d;"></i></span>
+            </a>
+            <a href="{% url 'register' %}" class="sub-menu-link">
+                <i class="fa-solid fa-address-card"></i>
+                <p>Register</p>
+                <span><i class="fa-solid fa-caret-right" style="color: #ffae3d;"></i></span>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
